@@ -9,5 +9,5 @@ Resources:
     Properties:
       Runtime: java8
       FunctionName: HelloWorld
-      CodeUri: s3://tetetest/3b4ae9a6f4d58cfa84c50b6147894fac
+      CodeUri: s3://tetetest/004b512f5ae7214bdf6c5a650cee13f2
       Handler: tetetest.App::handleRequest

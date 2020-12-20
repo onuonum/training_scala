@@ -10,3 +10,9 @@ lazy val root = (project in file("./testLambda/tetetest"))
   .settings(name := "tetetest")
   .settings(libraryDependencies ++= lambdaSettings)
 
+assemblyMergeStrategy in assembly := {
+  case "module-info.class" => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
