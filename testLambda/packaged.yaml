@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'sam-lambda-layers
+
+  '
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java8
+      FunctionName: HelloWorld
+      CodeUri: s3://tetetest/3b4ae9a6f4d58cfa84c50b6147894fac
+      Handler: tetetest.App::handleRequest

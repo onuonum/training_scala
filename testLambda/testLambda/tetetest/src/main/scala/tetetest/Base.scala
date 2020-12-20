@@ -1,3 +1,5 @@
+package tetetest
+
 import com.amazonaws.services.lambda.runtime.{Context, RequestHandler}
 
 trait Base extends RequestHandler[Map[String,String],String]{

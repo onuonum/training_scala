@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-lambda-layers
+
+Resources:
+  # IAM Role for Lambda Function
+#  LambdaFunctionRole:
+#    Type: AWS::IAM::Role
+#    Properties:
+#      RoleName: !Sub LambdaFunctionRole
+#      AssumeRolePolicyDocument:
+#        Statement:
+#          - Action:
+#              - sts:AssumeRole
+#            Effect: Allow
+#            Principal:
+#              Service:
+#                - lambda.amazonaws.com
+#        Version: '2012-10-17'
+#      ManagedPolicyArns:
+#        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  # Lambda Functions and Log Groups
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java8
+      FunctionName: HelloWorld
+      CodeUri: target/scala-2.13/testLambda-assembly-0.1.jar
+      Handler: tetetest.App::handleRequest
+#      Role: !GetAtt LambdaFunctionRole.Arn
+
+#  HelloWorldLogGroup:
+#    Type: AWS::Logs::LogGroup
+#    Properties:
+#      LogGroupName: /aws/lambda/HelloWorld
+#      RetentionInDays: 7
