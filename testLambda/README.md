@@ -2,6 +2,10 @@
 ```
 aws s3 mb s3://tetetest
 ```
+## swaggerをデプロイ
+```
+aws s3 cp swagger.yaml s3://tetetest/swagger.yaml
+```
 
 ## パッケージ化
 ```

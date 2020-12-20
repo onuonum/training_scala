@@ -4,6 +4,15 @@ Description: 'sam-lambda-layers
 
   '
 Resources:
+  HelloApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: test
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://tetetest/swagger.yaml
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -11,3 +20,11 @@ Resources:
       FunctionName: HelloWorld
       CodeUri: s3://tetetest/004b512f5ae7214bdf6c5a650cee13f2
       Handler: tetetest.App::handleRequest
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /test
+            Method: get
+            RestApiId:
+              Ref: HelloApi

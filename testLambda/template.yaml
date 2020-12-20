@@ -4,24 +4,18 @@ Description: >
   sam-lambda-layers
 
 Resources:
-  # IAM Role for Lambda Function
-#  LambdaFunctionRole:
-#    Type: AWS::IAM::Role
-#    Properties:
-#      RoleName: !Sub LambdaFunctionRole
-#      AssumeRolePolicyDocument:
-#        Statement:
-#          - Action:
-#              - sts:AssumeRole
-#            Effect: Allow
-#            Principal:
-#              Service:
-#                - lambda.amazonaws.com
-#        Version: '2012-10-17'
-#      ManagedPolicyArns:
-#        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  # Apigateway
+  helloApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: test
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://tetetest/swagger.yaml
 
-  # Lambda Functions and Log Groups
+  # Lambda
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -29,10 +23,11 @@ Resources:
       FunctionName: HelloWorld
       CodeUri: target/scala-2.13/testLambda-assembly-0.1.jar
       Handler: tetetest.App::handleRequest
-#      Role: !GetAtt LambdaFunctionRole.Arn
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /test
+            Method: get
+            RestApiId: !Ref helloApi
 
-#  HelloWorldLogGroup:
-#    Type: AWS::Logs::LogGroup
-#    Properties:
-#      LogGroupName: /aws/lambda/HelloWorld
-#      RetentionInDays: 7
