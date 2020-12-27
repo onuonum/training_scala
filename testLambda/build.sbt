@@ -1,10 +1,15 @@
 import Dependencies._
 
 name := "testLambda"
-
 version := "0.1"
-
 scalaVersion := "2.13.4"
+
+assemblyMergeStrategy in assembly := {
+  case "module-info.class" => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
 
 lazy val tetetest = (project in file("./testLambda/tetetest"))
   .settings(name := "tetetest")
@@ -15,15 +20,10 @@ lazy val root = (project in file("."))
       presentation,
       consumer,
       domain,
-      infrastrucrure,
+      infrastructure,
+      service
     )
-
-assemblyMergeStrategy in assembly := {
-  case "module-info.class" => MergeStrategy.discard
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
+  .enablePlugins(PlayScala)
 
 lazy val presentation = (project in file("./presentation"))
   .aggregate(presentationCore)
@@ -36,16 +36,14 @@ lazy val consumer = (project in file("./presentation/consumer"))
   .aggregate(presentationCore, qiitateam2growi)
 
 lazy val qiitateam2growi = (project in file("./presentation/consumer/qiitateam2growi"))
-  .dependsOn(presentationCore, domain, infraSQS)
+  .dependsOn(presentationCore, domain, service)
   .settings(libraryDependencies ++= lambdaDependencies ++ lambdaEventDependencies)
 
 lazy val domain = (project in file("./domain"))
-  .settings(libraryDependencies ++= circeDependencies)
+  .settings(libraryDependencies ++= circeDependencies )
 
-lazy val infrastrucrure = (project in file("./infrastrucrure"))
-  .aggregate(infraSQS)
+lazy val infrastructure = (project in file("./infrastructure"))
 
-lazy val infraSQS = (project in file("./infrastrucrure/sqs"))
+lazy val service = (project in file("./service"))
   .dependsOn(domain)
-  .settings(libraryDependencies ++=sqsDependencies )
-
+  .settings(libraryDependencies ++= scalajHttpDependencies)

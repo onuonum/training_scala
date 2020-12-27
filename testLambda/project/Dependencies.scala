@@ -31,5 +31,9 @@ object Dependencies {
     "software.amazon.awssdk" % "sqs" % awsSdkV2Version
   ) ++ testDependencies
 
+  private val scalajHttpVersion = "2.4.1"
+  lazy val scalajHttpDependencies = Seq(
+    "org.scalaj" %% "scalaj-http" % scalajHttpVersion
+  ) ++ testDependencies
 
 }

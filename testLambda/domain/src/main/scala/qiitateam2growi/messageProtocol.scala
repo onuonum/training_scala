@@ -46,7 +46,7 @@ object Tag {
 }
 
 //qiitateamからのエクスポート結果を格納する
-case class MessageProtocol(
+case class QiitaArticle(
                             id: String,
                             uuid: String,
                             user: User,
@@ -69,8 +69,8 @@ case class MessageProtocol(
                             comments: Seq[Option[String]]
                           )
 
-object MessageProtocol {
-  implicit val decoder: Decoder[MessageProtocol] = (c: HCursor) => {
+object QiitaArticle {
+  implicit val decoder: Decoder[QiitaArticle] = (c: HCursor) => {
     for {
       id <- c.downField("id").as[String]
       uuid <- c.downField("uuid").as[String]
@@ -92,7 +92,7 @@ object MessageProtocol {
       body <- c.downField("body").as[String]
       stock_users <- c.downField("stock_users").downArray.as[Option[String]]
       comments <- c.downField("comments").downArray.as[Option[String]]
-    } yield new MessageProtocol(
+    } yield new QiitaArticle(
       id = id,
       uuid = uuid,
       user = user,
@@ -119,13 +119,13 @@ object MessageProtocol {
 
 case class SqsMessage (
                       event: JsonObject,
-                      data: MessageProtocol
+                      data: QiitaArticle
                       )
 object SqsMessage {
   implicit val decoder: Decoder[SqsMessage] = (c: HCursor) => {
     for {
       event <- c.downField("event").as[JsonObject]
-      data <- c.downField("data").as[MessageProtocol]
+      data <- c.downField("data").as[QiitaArticle]
     } yield new SqsMessage(
       event = event,
       data = data
